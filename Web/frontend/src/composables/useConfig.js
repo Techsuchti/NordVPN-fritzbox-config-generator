@@ -23,6 +23,14 @@ const COMBINATION_FOLDERS = Array.from({ length: 32 }, (_, mask) => {
 })
 
 function buildWireGuardConfig(privateKey, dns, publicKey, endpoint, keepalive) {
+  if (!Validators.Key.valid(privateKey) || !privateKey) {
+    throw new Error('Private Key fehlt. Bitte zuerst einen NordVPN Private Key generieren.')
+  }
+
+  if (!publicKey || !Validators.Key.valid(publicKey)) {
+    throw new Error('Ungültiger Server Public Key.')
+  }
+
   return `[Interface]
 PrivateKey = ${privateKey || ''}
 Address = 10.5.0.2/32
@@ -153,7 +161,8 @@ export function useConfig() {
   )
 
   const download = server => {
-    const blob = new Blob([buildText(server)], { type: 'application/x-wireguard-config' })
+    const text = buildText(server)
+    const blob = new Blob([text], { type: 'application/x-wireguard-config' })
     saveBlob(blob, sanitizeArchiveSegment(server.fileName, 'server.conf'))
   }
 
@@ -173,6 +182,10 @@ export function useConfig() {
     if (archiveParts.length === 1) archiveParts.push('All')
 
     const encoder = new TextEncoder()
+    if (!privateKey.value || !Validators.Key.valid(privateKey.value)) {
+      throw new Error('Private Key fehlt. Bitte zuerst einen NordVPN Private Key generieren.')
+    }
+
     const entries = servers.map(server => ({
       name: buildBatchFilePath(targetGroup, targetCountry, targetCity, server),
       data: encoder.encode(buildText(server)),
