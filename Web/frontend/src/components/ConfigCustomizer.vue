@@ -89,9 +89,14 @@ const cancel = () => {
   >
     <header class="sticky top-0 z-50 bg-app-surface border-b border-app-border flex-none">
       <div class="px-4 h-14 flex items-center">
-        <h1 id="configuration-title" class="text-base font-medium">
-          Customize Configuration
-        </h1>
+        <div>
+          <h1 id="configuration-title" class="text-base font-medium">
+            FRITZ!Box Configuration
+          </h1>
+          <p class="text-xs text-nord-text-secondary mt-0.5">
+            NordVPN WireGuard · für FRITZ!OS
+          </p>
+        </div>
       </div>
     </header>
 
@@ -174,8 +179,8 @@ const cancel = () => {
               v-model="localConfig.endpoint"
               class="w-full h-9 bg-app-bg border rounded px-3 text-sm appearance-none border-nord-button-secondary focus:border-app-accent focus:ring-1 focus:ring-app-accent transition-colors cursor-pointer"
             >
+              <option value="station">IP-Adresse (empfohlen für FRITZ!Box)</option>
               <option value="hostname">Hostname</option>
-              <option value="station">IP Address</option>
             </select>
             <div
               class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-nord-text-secondary"
