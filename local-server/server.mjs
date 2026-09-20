@@ -187,10 +187,19 @@ async function proxyApi(req, res, pathname) {
   const requestUrl = new URL(req.url, `http://${req.headers.host}`)
   const target = new URL(UPSTREAM_API + pathname.slice('/api'.length) + requestUrl.search)
   const headers = { ...req.headers, host: 'nordgen.selfhoster.win', origin: 'https://nordgen.selfhoster.win', 'sec-fetch-site': 'same-origin', 'sec-fetch-mode': 'cors', 'sec-fetch-dest': 'empty' }
-  delete headers.connection; delete headers['content-length']
+  // Node fetch transparently decompresses upstream responses. Do not forward
+  // the browser's compression headers or the upstream Content-Encoding, otherwise
+  // the browser tries to decompress an already decompressed response ("Decoding failed").
+  delete headers.connection
+  delete headers['content-length']
+  delete headers['accept-encoding']
+  delete headers['content-encoding']
   const body = req.method === 'GET' || req.method === 'HEAD' ? undefined : req
   const upstream = await fetch(target, { method: req.method, headers, body, redirect: 'manual' })
-  const responseHeaders = Object.fromEntries(upstream.headers.entries()); delete responseHeaders['content-length']
+  const responseHeaders = Object.fromEntries(upstream.headers.entries())
+  delete responseHeaders['content-length']
+  delete responseHeaders['content-encoding']
+  delete responseHeaders['transfer-encoding']
   res.writeHead(upstream.status, responseHeaders)
   if (upstream.body) for await (const chunk of upstream.body) res.write(Buffer.from(chunk))
   res.end()
