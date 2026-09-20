@@ -33,6 +33,9 @@ jobs:
             exit 1
           fi
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "major=${VERSION%%.*}" >> "$GITHUB_OUTPUT"
+          REST="${VERSION#*.}"
+          echo "minor=${REST%%.*}" >> "$GITHUB_OUTPUT"
 
       - name: Log in to GHCR
         uses: docker/login-action@v3
@@ -48,8 +51,8 @@ jobs:
           images: ghcr.io/techsuchti/nordvpn-fritzbox-config-generator
           tags: |
             type=raw,value=${{ steps.version.outputs.version }}
-            type=raw,value=${{ steps.version.outputs.version.split('.')[0] }}.${{ steps.version.outputs.version.split('.')[1] }}
-            type=raw,value=${{ steps.version.outputs.version.split('.')[0] }}
+            type=raw,value=${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}
+            type=raw,value=${{ steps.version.outputs.major }}
             type=raw,value=latest
             type=sha
 
