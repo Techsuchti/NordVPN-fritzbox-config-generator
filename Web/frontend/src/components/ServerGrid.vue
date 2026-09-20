@@ -4,6 +4,8 @@ import { useServers } from '@/composables/useServers'
 import { useConfig } from '@/composables/useConfig'
 import { useUI } from '@/composables/useUI'
 import { useToast } from '@/composables/useToast'
+import { useAuth } from '@/composables/useAuth'
+import { api } from '@/services/apiService'
 import ServerCard from '@/components/ServerCard.vue'
 import Icon from '@/components/Icon.vue'
 
@@ -11,6 +13,7 @@ const servers = useServers()
 const config = useConfig()
 const ui = useUI()
 const notifications = useToast()
+const auth = useAuth()
 
 const sentinel = ref(null)
 let observer = null
@@ -25,8 +28,19 @@ const emptyMessage = computed(() => {
   return 'No servers loaded.'
 })
 
-const download = server => {
+const ensurePrivateKey = async () => {
+  if (config.privateKey.value) return
+  if (!auth.tokenStored.value) {
+    throw new Error('NordVPN Access Token fehlt. Bitte unter Mein Profil speichern.')
+  }
+
+  const { key } = await api.genKey('')
+  config.setKey(key)
+}
+
+const download = async server => {
   try {
+    await ensurePrivateKey()
     config.download(server)
     notifications.show('Downloaded', 'success')
   } catch (error) {
@@ -36,6 +50,7 @@ const download = server => {
 
 const copy = async server => {
   try {
+    await ensurePrivateKey()
     await config.copy(server)
     notifications.show('Copied', 'success')
   } catch (error) {
@@ -52,12 +67,13 @@ const copyIp = async ip => {
   }
 }
 
-const showQr = server => {
-  ui.showQr(server, () => config.getQrBlob(server))
-    .catch(error => notifications.show(
-      error.message || 'QR generation failed',
-      'error',
-    ))
+const showQr = async server => {
+  try {
+    await ensurePrivateKey()
+    await ui.showQr(server, () => config.getQrBlob(server))
+  } catch (error) {
+    notifications.show(error.message || 'QR generation failed', 'error')
+  }
 }
 
 const observeSentinel = async () => {
