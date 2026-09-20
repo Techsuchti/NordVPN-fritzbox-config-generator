@@ -8,7 +8,7 @@ import { createZipArchive } from '@/utils/zip'
 const SETTINGS_STORAGE_KEY = 'wg_gen_settings'
 const DEFAULT_SETTINGS = {
   dns: '103.86.96.100',
-  endpoint: 'hostname',
+  endpoint: 'station',
   keepalive: 25,
 }
 const ARCHIVE_SEGMENT_PATTERN = /[\u0000-\u001f<>:"/\\|?*]/g
@@ -25,12 +25,12 @@ const COMBINATION_FOLDERS = Array.from({ length: 32 }, (_, mask) => {
 function buildWireGuardConfig(privateKey, dns, publicKey, endpoint, keepalive) {
   return `[Interface]
 PrivateKey=${privateKey || ''}
-Address=10.5.0.2/16
+Address=10.5.0.2/32
 DNS=${dns}
 
 [Peer]
 PublicKey=${publicKey}
-AllowedIPs=0.0.0.0/0,::/0
+AllowedIPs=0.0.0.0/0
 Endpoint=${endpoint}:51820
 PersistentKeepalive=${keepalive}`
 }
