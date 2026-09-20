@@ -154,3 +154,15 @@ If this project saves you time, there are several ways to support it.
 ## License
 
 Distributed under the GNU General Public License version 3 or later. See [`LICENSE`](LICENSE).
+
+## FRITZ!Box
+
+The generated `.conf` files are standard WireGuard configuration files intended for the FRITZ!Box WireGuard import workflow.
+
+The web generator uses the NordVPN tunnel address `10.5.0.2/32`, NordVPN DNS `103.86.96.100` by default, IPv4 full-tunnel routing (`0.0.0.0/0`), and port `51820`. The server IP can be selected as the endpoint to avoid depending on DNS resolution during tunnel setup.
+
+With current FRITZ!OS, import the file under **Internet → Freigaben → VPN (WireGuard) → Verbindung hinzufügen** and choose the option that the WireGuard connection is already configured at the remote site. Upload the generated `.conf` file and enable **Gesamten IPv4-Netzwerkverkehr über die VPN-Verbindung senden** if the whole home network should use NordVPN.
+
+AVM documents this provider-import workflow for WireGuard VPN providers. citeturn4search0
+
+Important: FRITZ!Box can reject an imported configuration when another WireGuard connection is already configured because the imported private key would conflict with the existing WireGuard key. AVM documents this limitation separately. citeturn4search1
