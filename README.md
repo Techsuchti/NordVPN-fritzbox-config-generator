@@ -163,6 +163,6 @@ The web generator uses the NordVPN tunnel address `10.5.0.2/32`, NordVPN DNS `10
 
 With current FRITZ!OS, import the file under **Internet → Freigaben → VPN (WireGuard) → Verbindung hinzufügen** and choose the option that the WireGuard connection is already configured at the remote site. Upload the generated `.conf` file and enable **Gesamten IPv4-Netzwerkverkehr über die VPN-Verbindung senden** if the whole home network should use NordVPN.
 
-AVM documents this provider-import workflow for WireGuard VPN providers. citeturn4search0
+AVM documents this provider-import workflow for WireGuard VPN providers.
 
-Important: FRITZ!Box can reject an imported configuration when another WireGuard connection is already configured because the imported private key would conflict with the existing WireGuard key. AVM documents this limitation separately. citeturn4search1
+Important: FRITZ!Box can reject an imported configuration when another WireGuard connection is already configured because the imported private key would conflict with the existing WireGuard key. AVM documents this limitation separately.
