@@ -1,0 +1,7 @@
+services:
+  nordvpn-fritzbox-generator:
+    image: ghcr.io/techsuchti/nordvpn-fritzbox-config-generator:latest
+    container_name: nordvpn-fritzbox-generator
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
