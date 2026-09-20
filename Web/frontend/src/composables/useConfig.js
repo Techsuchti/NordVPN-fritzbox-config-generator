@@ -33,12 +33,12 @@ function buildWireGuardConfig(privateKey, dns, publicKey, endpoint, keepalive) {
 
   return `[Interface]
 PrivateKey = ${privateKey || ''}
-Address = 10.5.0.2/32
+Address = 10.5.0.2/16
 DNS = ${dns}
 
 [Peer]
 PublicKey = ${publicKey}
-AllowedIPs = 0.0.0.0/0
+AllowedIPs = 0.0.0.0/0, ::/0
 Endpoint = ${endpoint}:51820
 PersistentKeepalive = ${keepalive}`
 }
