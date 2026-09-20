@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <Container version="2">
   <Name>NordVPN-FRITZBox-Generator</Name>
-  <Repository>ghcr.io/techsuchti/nordvpn-fritzbox-config-generator:1.1.2</Repository>
+  <Repository>ghcr.io/techsuchti/nordvpn-fritzbox-config-generator:1.1.3</Repository>
   <Registry>https://ghcr.io/</Registry>
   <Network>bridge</Network>
   <Shell>sh</Shell>
