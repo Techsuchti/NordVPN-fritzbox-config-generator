@@ -1,0 +1,8 @@
+.git
+.github
+node_modules
+Web/frontend/node_modules
+Web/frontend/dist
+Web/worker/node_modules
+generated_configs
+*.log
