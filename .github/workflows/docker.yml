@@ -8,6 +8,7 @@ on:
       - "VERSION"
       - "Dockerfile"
       - "docker/**"
+      - "local-server/**"
       - "Web/frontend/**"
       - ".github/workflows/docker.yml"
   workflow_dispatch:
