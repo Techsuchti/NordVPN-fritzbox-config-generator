@@ -24,15 +24,15 @@ const COMBINATION_FOLDERS = Array.from({ length: 32 }, (_, mask) => {
 
 function buildWireGuardConfig(privateKey, dns, publicKey, endpoint, keepalive) {
   return `[Interface]
-PrivateKey=${privateKey || ''}
-Address=10.5.0.2/32
-DNS=${dns}
+PrivateKey = ${privateKey || ''}
+Address = 10.5.0.2/32
+DNS = ${dns}
 
 [Peer]
-PublicKey=${publicKey}
-AllowedIPs=0.0.0.0/0
-Endpoint=${endpoint}:51820
-PersistentKeepalive=${keepalive}`
+PublicKey = ${publicKey}
+AllowedIPs = 0.0.0.0/0
+Endpoint = ${endpoint}:51820
+PersistentKeepalive = ${keepalive}`
 }
 
 function sanitizeArchiveSegment(value, fallback) {
