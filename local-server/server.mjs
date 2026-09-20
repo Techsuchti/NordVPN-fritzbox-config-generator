@@ -213,7 +213,7 @@ const server = http.createServer(async (req, res) => {
   try {
     const pathname = new URL(req.url, `http://${req.headers.host}`).pathname
     if (pathname.startsWith('/local-api/')) { await handleLocalApi(req, res, pathname); return }
-    if (pathname.startsWith('/api/')) { await proxyApi(req, res, pathname); return }
+    if (pathname.startsWith('/api/')) { if (!sessionUser(req)) { json(res, 401, { error: 'Not authenticated' }); return } await proxyApi(req, res, pathname); return }
     serveStatic(req, res)
   } catch (error) {
     console.error('request_error', error instanceof Error ? error.message : String(error))
